@@ -3,3 +3,4 @@ A starter project for undergrad student to gain familiarity with VMs and Web Dev
 
 # Notes
 > Working with two nested VirtualBox VM's, both running latest version of Ubuntu.
+> Using Django for site development
