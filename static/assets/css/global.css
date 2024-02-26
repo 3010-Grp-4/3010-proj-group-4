@@ -1,0 +1,32 @@
+.navbar {
+  background-color: var(--bs-purple);
+}
+
+.page-item {
+  --bs-pagination-color: var(--bs-purple);
+  --bs-pagination-active-bg: var(--bs-purple);
+  --bs-pagination-active-border-color: var(--bs-purple);
+}
+
+.sidebar .nav-item.li.side-icon {
+  /*color: rgb(225,18,18) !important;*/
+  /*background-color: var(--bs-emphasis-color) !important;*/
+}
+
+.side-icon {
+  /*color: rgba(255,255,255,.8) !important;*/
+  /*background: var(--bs-emphasis-color)!important;*/
+}
+
+.side-nav-icon {
+  color: rgba(255,255,255,.3);
+}
+
+.side-nav-icon:focus {
+  color: white;
+}
+
+.side-nav-icon.title {
+  color: rgba(255,255,255,0.8);
+}
+
