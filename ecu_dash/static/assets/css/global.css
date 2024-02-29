@@ -30,3 +30,7 @@
   color: rgba(255,255,255,0.8);
 }
 
+.btn-primary {
+  background-color: var(--bs-purple) !important;
+  border-color: var(--bs-purple) !important;
+}
