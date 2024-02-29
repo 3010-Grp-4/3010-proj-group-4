@@ -7,6 +7,30 @@
 {% block stylesheet %}
 {% endblock %}
 {% block style %}
+<style>
+    .active > .page-link, .page-link.active {
+        z-index: 3;
+        color: #fff;
+        background-color: rebeccapurple;
+        border-color: rebeccapurple;
+    }
+    .pagination {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: black;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .pagination:hover {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: goldenrod;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .page-link:hover {
+      z-index: 2;
+      color: rebeccapurple;
+      background-color: var(--bs-pagination-hover-bg);
+      border-color: var(--bs-pagination-hover-border-color);
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -42,8 +66,22 @@
                             <th>Remarks</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
+                        <tr>
 
+
+
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Name"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Rank"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Email"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Phone"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Office"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Research Interests"></label></div></th>
+                            <th><div class="my-2"><label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Remarks"></label></div></th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
                     {% for faculty in faculty %}
                     <!-- Start: Faculty Row -->
                         <tr style="font-size: small;">
@@ -52,7 +90,7 @@
                             <td>{{ faculty.email }}</td>
                             <td>{{ faculty.phone }}</td>
                             <td>{{ faculty.office }}</td>
-                            <td>{{ faculty.research_interests }}</td>
+                            <td>{{ faculty.research_interest }}</td>
                             <td>{{ faculty.remarks }}</td>
                         </tr>
                     <!-- End: Faculty Row -->
