@@ -1,4 +1,5 @@
 # 3010-proj-group-4
+
 A starter project for undergrad students to gain familuarity with VMs and Web Development using "best" practices and methodologies. The goal of the project is to create an "Internal College Dashboard" that's used to display information about faculty, students, and courses.
 
 ---
@@ -173,3 +174,4 @@ Once logged in, you can manage your app's data using the Django admin interface.
 ---
 
  For more detailed tasks and customizations, refer to the [Django documentation](https://docs.djangoproject.com/en/stable/ref/contrib/admin/).
+
