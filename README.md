@@ -1,6 +1,6 @@
 # 3010-proj-group-4
 
-A starter project for undergrad students to gain familuarity with VMs and Web Development using "best" practices and methodologies. The goal of the project is to create an "Internal College Dashboard" that's used to display information about faculty, students, and courses.
+A starter project for undergrad students to gain familiarity with VMs and Web Development using "best" practices and methodologies. The goal of the project is to create an "Internal College Dashboard" that's used to display information about faculty, students, and courses.
 
 ---
 ![Faculty View](Faculty(2024-02-29).png "Faculty View")
@@ -10,7 +10,7 @@ A starter project for undergrad students to gain familuarity with VMs and Web De
 
 ## Prerequisites
 
-Requisites needed to run the project inlcude.
+Requisites needed to run the project include:
 ```bash
     python 3.12
 ```
@@ -46,7 +46,7 @@ source venv/bin/activate
 
 ### Change Directories
 
-This repo's "main branch" was pre-created, therefore in order to create a Django-Project inside of the pre-created git repo. Changing directories into "Django Project" folder became an neccessity.
+This repo's "main branch" was pre-created, therefore to create a Django-Project inside of the pre-created git repo. Changing directories into "Django Project" folder became a necessity.
 
 ```bash
 # Change directories to Django project folder
