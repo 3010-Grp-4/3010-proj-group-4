@@ -100,21 +100,21 @@ def login_user(request):
     context = {'member': member}
     if request.method == 'POST':
         print('POST request received')
-        username = request.POST['Username']
-        password = request.POST['Password']
+        username = request.POST['username']
+        password = request.POST['password']
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
             print('Successful Login!')
             messages.success(request, 'Successful Login!')
-            return render(request, 'dashboard/faculty.html', context)  # Redirect to the faculty page
+            redirect('dashboard/faculty')  # Redirect to the faculty page
         else:
             print('ERROR: No username or password, please try again..')
             messages.error(request, 'ERROR: No username or password, please try again..')
             return render(request, 'dashboard/register.html')  # Correct path to your login template
     else:
         print('ERROR: No username or password, please try again..')
-        return render(request, 'dashboard/register.html')  # Correct path to your login template
+        return render(request, 'dashboard/login.html')  # Correct path to your login template
 
 
 def logout_user(request):

@@ -61,17 +61,7 @@
                 <li class="nav-item">
                 <a class="nav-link" style="color: white" href="{% url 'dashboard:profile' %}">Profile</a>
               </li>
-                {% if user.is_authenticated %}
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:logout_user' %}">Logout, {{ user }}</a>
-                {% elif user.is_anonymous %}
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:login_user' %}">Profile</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:register_user' %}">Register</a>
-                </li>
-                {% endif %}
+
 
 
 <!--              <li class="nav-item dropdown">-->
@@ -85,6 +75,15 @@
 <!--                </div>-->
 <!--              </li>-->
             </ul>
+              <ul class="navbar-nav fw-bold mx-2">
+                  {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:logout_user' %}">Logout, {{ user }}</a>
+                {% elif user.is_anonymous %}
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:login_user' %}">Login</a>
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:register_user' %}">Register</a>
+                {% endif %}
+              </ul>
           </div>
         </nav>
         <div class="m-5">
