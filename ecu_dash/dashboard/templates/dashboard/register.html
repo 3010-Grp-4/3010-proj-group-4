@@ -12,6 +12,29 @@
 <!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">-->
 {% endblock %}
 {% block style %}
+    <style>
+        .p-btn {
+            background-color: rebeccapurple;
+            border-color: rebeccapurple;
+        }
+        .p-btn:hover {
+            background-color: goldenrod;
+            border-color: goldenrod;
+            font-weight: bold;
+        }
+        .p-p {
+            color: rebeccapurple;
+        }
+        .p-p:hover {
+            color: black;
+            font-weight: bold;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}
+    <h1 class="text-dark mb-1">Register</h1>
+    <p class="text-muted
 {% endblock %}
 
 {% block content %}
@@ -20,7 +43,7 @@
             <div class="card-body p-0">
                 <div class="row">
                     <div class="col-lg-5 d-none d-lg-flex">
-                        <div class="flex-grow-1 bg-register-image" style="background-image: url(&quot;assets/img/dogs/image2.jpeg&quot;);"></div>
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(https://www.commonapp.org/static/b72b406cc64f897418b6ee13f27c6238/east-carolina-university_851_gallery1.jpg);"></div>
                     </div>
                     <div class="col-lg-7">
                         <div class="p-5">
@@ -40,12 +63,12 @@
                                     <div class="col-sm-6 mb-3 mb-sm-0"><label class="mx-2"
                                             for="examplePasswordInput"></label>Password<input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password" name="password"></div>
 <!--                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password" name="password_repeat"></div>-->
-                                </div><button class="btn btn-primary d-block btn-user w-100" type="submit">Register Account</button>
-                                <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2" role="button"><i class="fab fa-google"></i>&nbsp; Register with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook</a>
+                                </div><button class="btn btn-primary d-block btn-user w-100 p-btn" type="submit">Register Account</button>
+                                <hr><a class="btn btn-primary d-block btn-google btn-user w-100 mb-2 p-btn" role="button"><i class="fab fa-google"></i>&nbsp; Register with Google</a><a class="btn btn-primary d-block btn-facebook btn-user w-100 p-btn" role="button"><i class="fab fa-facebook-f"></i>&nbsp; Register with Facebook</a>
                                 <hr>
                             </form>
-                            <div class="text-center"><a class="small" href="#">Forgot Password?</a></div>
-                            <div class="text-center"><a class="small" href="{% url 'dashboard:login_user' %}">Already have an account? Login!</a></div>
+                            <div class="text-center"><a class="small p-p" href="#">Forgot Password?</a></div>
+                            <div class="text-center"><a class="small p-p" href="{% url 'dashboard:login_user' %}">Already have an account? Login!</a></div>
                         </div>
                     </div>
                 </div>
