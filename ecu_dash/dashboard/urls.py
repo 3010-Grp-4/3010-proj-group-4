@@ -24,4 +24,10 @@ urlpatterns = [
     path('courses/', views.courses, name='courses'),
     path('profile/', views.profile, name='profile'),
     path('table/', views.table, name='table'),
+
+    # User Authentication URLs
+    path('register_user/', views.register_user, name='register_user'),
+    path('login/', views.login_user, name='login_user'),
+    path('logout/', views.logout_user, name='logout_user'),
+
 ]
