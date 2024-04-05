@@ -7,6 +7,30 @@
 {% block stylesheet %}
 {% endblock %}
 {% block style %}
+    <style>
+    .active > .page-link, .page-link.active {
+        z-index: 3;
+        color: #fff;
+        background-color: rebeccapurple;
+        border-color: rebeccapurple;
+    }
+    .pagination {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: black;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .pagination:hover {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: goldenrod;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .page-link:hover {
+      z-index: 2;
+      color: rebeccapurple;
+      background-color: var(--bs-pagination-hover-bg);
+      border-color: var(--bs-pagination-hover-border-color);
+    }
+</style>
 {% endblock %}
 
 {% block content %}

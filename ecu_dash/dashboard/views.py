@@ -1,9 +1,15 @@
 from django.contrib import messages
-from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
+
 from django.shortcuts import render, redirect
 
 from dashboard import models
+from django.urls import reverse
+
+from .models import Faculty
+from django.db.models import Q
 
 
 # Create your views here.
@@ -17,9 +23,41 @@ def home(request):
 #     return render(request, 'dashboard/about.html')
 
 def faculty(request):
-    current_faculty = models.Faculty.objects.all()
+    faculties = Faculty.objects.all()
+
+    # Start with an empty Q object
+    query = Q()
+
+    # Retrieve query parameters
+    name = request.GET.get('name')
+    email = request.GET.get('email')
+    rank = request.GET.get('rank')
+    phone = request.GET.get('phone')
+    office = request.GET.get('office')
+    research_interest = request.GET.get('research_interest')
+    remarks = request.GET.get('remarks')
+
+    # Dynamically build the query based on the presence of parameters
+    if name:
+        query &= Q(user__username__icontains=name)
+    if email:
+        query &= Q(email__icontains=email)
+    if rank:
+        query &= Q(position__icontains=rank)
+    if phone:
+        query &= Q(phone__icontains=phone)
+    if office:
+        query &= Q(office__icontains=office)
+    if research_interest:
+        query &= Q(research_interest__icontains=research_interest)
+    if remarks:
+        query &= Q(remarks__icontains=remarks)
+
+    # Apply the constructed query to filter faculties
+    faculties = faculties.filter(query)
+
     context = {
-        'faculty': current_faculty
+        'faculty': faculties,
     }
     return render(request, 'dashboard/faculty.html', context)
 
@@ -31,6 +69,10 @@ def courses(request):
     return render(request, 'dashboard/courses.html')
 
 
+def fte(request):
+    return render(request, 'dashboard/fte.html')
+
+
 def profile(request):
     return render(request, 'dashboard/profile.html')
 
@@ -39,87 +81,52 @@ def table(request):
     return render(request, 'dashboard/table.html')
 
 
-def register_user(request):
-    # TODO: Add a check to see if the user is already logged in
-    # TODO: VERIFY THAT THE CURRENT BELOW CODE WORKS BEFORE EDITING
+def login_view(request):
     if request.method == 'POST':
-        print('POST request received')
-        # Get user details from the form
+        username = request.POST['Username']
+        password = request.POST['Password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            # Redirect to a success page.
+            print('Successful Login ! ')
+            messages.success(request, 'Successful Login ! ')
+            return redirect('dashboard:faculty')
+        else:
+            messages.success(request, 'ERROR: No username or password, please try again..')
+            return render(request, 'dashboard/login.html', {})
+    else:
+        return render(request, 'dashboard/login.html', {})
+
+
+def register_view(request):
+    if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-        first_name = request.POST['firstName']
-        last_name = request.POST['lastName']
-        email = request.POST['email']
-
-        print(f'\n\n\n\nUsername: {username}')
-        print(f'Password: {password}')
-        print(f'First Name: {first_name}')
-        print(f'Last Name: {last_name}')
-        print(f'Email: {email}\n\n\n')
-
-        # Get the user details from the form
-        # profile_img_url = request.POST['profile_img_url']
-        # account_type = request.POST['account_type']
-
-        # print(f'Profile Image URL: {profile_img_url}')
-        # print(f'Account Type: {account_type}')
-
-        profile_img_url = 'https://media.istockphoto.com/id/168415745/photo/black-panther.webp?b=1&s=170667a&w=0&k=20&c=VUXE_4-AEIAJIxRvVjkbENkBfroAXrzaHlUMwE4jR_s='
-
-        # Create the user object
-        user = User.objects.create_user(username, email, password)
-        user.first_name = first_name
-        user.last_name = last_name
-
-        # Create the user setting / university account for the new user
-        settings = models.UserSetting.objects.create(user=user)
-
-        try:
-            print('Creating a new user')
-            # Save the changes
-            user.save()
-            # log the user in
+        user = User.objects.create_user(username=username, password=password)
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
             login(request, user)
-            print('User was created successfully')
-            messages.success(request, 'User was created successfully')
-
-            # Save user settings for the new user
-            settings.save()
-            print('User setting was created successfully')
-            messages.success(request, 'User setting was created successfully')
-            return render(request, 'dashboard/faculty.html')  # Redirect to the faculty page
-        except Exception as e:
-            print(f'An unexpected error occurred: {str(e)}')
-            messages.error(request, f'An unexpected error occurred: {str(e)}')
+            messages.success(request, 'User was just registered')
+            return redirect('dashboard:login')
 
     return render(request, 'dashboard/register.html')
 
 
-def login_user(request):
-    member = request.user
-    context = {'member': member}
-    if request.method == 'POST':
-        print('POST request received')
-        username = request.POST['username']
-        password = request.POST['password']
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            print('Successful Login!')
-            messages.success(request, 'Successful Login!')
-            redirect('dashboard/faculty')  # Redirect to the faculty page
-        else:
-            print('ERROR: No username or password, please try again..')
-            messages.error(request, 'ERROR: No username or password, please try again..')
-            return render(request, 'dashboard/register.html')  # Correct path to your login template
-    else:
-        print('ERROR: No username or password, please try again..')
-        return render(request, 'dashboard/login.html')  # Correct path to your login template
-
-
-def logout_user(request):
-    # Log the user out
+def logout_view(request):
     logout(request)
-    print('Logout was Successful !')
+    # Redirect to a success page.
+    print('Logout was Successful !: Thanks for joining the resistance...')
     messages.success(request, 'Logout was Successful !')
-    return redirect('dashboard:login_user')  # Redirect to the home page
+    return render(request, 'dashboard/faculty.html')
+
+# def register(request):
+#     if request.method == 'POST':
+#         username = request.POST['username']
+#         password = request.POST['password']
+#         user = authenticate(request, username=username, password=password)
+#         if user is not None:
+#             login(request, user)
+#             print('User was just registered')
+#             return render(request, 'dashboard/login.html')
+#     return render(request, 'dashboard/register.html')

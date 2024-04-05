@@ -34,3 +34,18 @@
   background-color: var(--bs-purple) !important;
   border-color: var(--bs-purple) !important;
 }
+
+.bg-primary {
+    background-color: rebeccapurple !important;
+}
+.w-font {
+    color: white;
+}
+.text-primary {
+    color: rebeccapurple !important;
+}
+.btn-primary {
+    color: rebeccapurple !important;
+    background-color: gold !important;
+    border-color: black !important;
+}

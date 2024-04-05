@@ -17,17 +17,17 @@ Including another URLconf
 from django.urls import path
 from dashboard import views
 
+app_name = 'dashboard'
 
 urlpatterns = [
-    path('dashboard/', views.home, name='home'),
+    # path('dashboard/', views.home, name='home'),
     path('', views.faculty, name='faculty'),
     path('courses/', views.courses, name='courses'),
+    path('fte/', views.fte, name='fte'),
     path('profile/', views.profile, name='profile'),
     path('table/', views.table, name='table'),
-
-    # User Authentication URLs
-    path('register_user/', views.register_user, name='register_user'),
-    path('login/', views.login_user, name='login_user'),
-    path('logout/', views.logout_user, name='logout_user'),
+    path('login/', views.login_view, name='login'),
+    path('register/', views.register_view, name='register'),
+    path('logout/', views.logout_view, name='logout'),
 
 ]
