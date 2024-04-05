@@ -25,17 +25,20 @@ class Faculty(models.Model):
     experience = models.CharField(max_length=100, blank=True)
     phone = models.CharField(max_length=100, blank=True)
     img_url = models.URLField(blank=True, null=True)
+    year_of_joining = models.IntegerField(blank=True, null=True)
 
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name
 
 
 class Course(models.Model):
-    course_code = models.CharField(max_length=10)
+    course_code = models.CharField(max_length=10, unique=True, blank=True, null=True)
     course_name = models.CharField(max_length=100)
-    course_description = models.CharField(max_length=500)
-    course_credit = models.FloatField()
-    course_faculty = models.ForeignKey(Faculty, on_delete=models.CASCADE)
+    course_description = models.CharField(max_length=500, blank=True, null=True)
+    course_credit = models.FloatField(blank=True, null=True)
+    graduate_divisor = models.FloatField(blank=True, null=True)
+    undergraduate_divisor = models.FloatField(blank=True, null=True)
+    course_faculty = models.ManyToManyField(Faculty, blank=True)
     course_img_url = models.URLField(blank=True, null=True)
 
     def __str__(self):

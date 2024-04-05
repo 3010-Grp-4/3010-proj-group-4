@@ -8,7 +8,7 @@ from django.shortcuts import render, redirect
 from dashboard import models
 from django.urls import reverse
 
-from .models import Faculty
+from .models import Faculty, Course
 from django.db.models import Q
 
 
@@ -66,11 +66,68 @@ def faculty(request):
 #     return render(request, 'dashboard/students.html')
 
 def courses(request):
-    return render(request, 'dashboard/courses.html')
+    uni_courses = Course.objects.all()
+
+    if uni_courses is not None:
+        try:
+            for course in uni_courses:
+                if course.course_code.startswith('CSCI'):
+                    if course.course_faculty == 'Graduate':  # Adjust conditions as needed
+                        course.fte = (course.course_credit * course.enrollment) / course.csci_graduate_divisor
+                    else:
+                        course.fte = (course.course_credit * course.enrollment) / course.csci_undergraduate_divisor
+                # ... similar logic for other departments
+                else:
+                    print('Course not found')
+        except Exception as e:
+            print('Error: ', e)
+    else:
+        print('No courses found')
+
+    return render(request, 'dashboard/courses-1.html', {'courses': uni_courses})
 
 
 def fte(request):
-    return render(request, 'dashboard/fte.html')
+    faculties = Faculty.objects.all()
+
+    # Start with an empty Q object
+    query = Q()
+
+    # Retrieve query parameters
+    course_code = request.GET.get('course_code')
+    position = request.GET.get('rank')
+    course_name = request.GET.get('course_name')
+    course_credit = request.GET.get('course_credit')
+    graduate_divisor = request.GET.get('research_interest')
+    undergraduate_divisor = request.GET.get('undergraduate_divisor')
+    course_faculty = request.GET.get('course_faculty')
+    course_description = request.GET.get('course_description')
+
+    # Dynamically build the query based on the presence of parameters
+    if course_code:
+        query &= Q(email__icontains=course_code)
+    if course_name:
+        query &= Q(position__icontains=course_name)
+    if course_credit:
+        query &= Q(phone__icontains=course_credit)
+    if position:
+        query &= Q(office__icontains=position)
+    if graduate_divisor:
+        query &= Q(office__icontains=graduate_divisor)
+    if undergraduate_divisor:
+        query &= Q(research_interest__icontains=undergraduate_divisor)
+    if course_faculty:
+        query &= Q(remarks__icontains=course_faculty)
+    if course_description:
+        query &= Q(remarks__icontains=course_description)
+
+    # Apply the constructed query to filter faculties
+    faculties = faculties.filter(query)
+
+    context = {
+        'faculty': faculties,
+    }
+    return render(request, 'dashboard/fte.html', context)
 
 
 def profile(request):

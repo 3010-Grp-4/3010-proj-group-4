@@ -2,6 +2,14 @@
   background-color: var(--bs-purple);
 }
 
+.nav-link {
+  color: rebeccapurple;
+}
+
+.nav-link:hover {
+  color: orange;
+}
+
 .page-item {
   --bs-pagination-color: var(--bs-purple);
   --bs-pagination-active-bg: var(--bs-purple);

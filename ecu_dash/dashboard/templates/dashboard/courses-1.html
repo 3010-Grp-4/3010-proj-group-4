@@ -1,0 +1,179 @@
+{% extends 'dashboard/index.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Profile</title>
+{% endblock %}
+{% block stylesheet %}
+{% endblock %}
+{% block style %}
+    <style>
+    .active > .page-link, .page-link.active {
+        z-index: 3;
+        color: #fff;
+        background-color: rebeccapurple;
+        border-color: rebeccapurple;
+    }
+    .pagination {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: black;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .pagination:hover {
+        --bs-pagination-font-size: 1rem;
+        --bs-pagination-color: goldenrod;
+        --bs-pagination-bg: var(--bs-body-bg);
+    }
+    .page-link:hover {
+      z-index: 2;
+      color: rebeccapurple;
+      background-color: var(--bs-pagination-hover-bg);
+      border-color: var(--bs-pagination-hover-border-color);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+    <h3 class="text-dark mb-4">Courses</h3>
+    <div>
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item" role="presentation"><a class="nav-link active" role="tab" data-bs-toggle="tab" href="#tab-1">Course Info</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-2">Course Directors</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-3">Course Schedule History</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link" role="tab" data-bs-toggle="tab" href="#tab-4">SCH Generated</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane active" role="tabpanel" id="tab-1">
+                                <div class="card shadow">
+                                    <div class="card-header py-3">
+                                        <p class="m-0 fw-bold" style="color: black;">Course Info</p>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-5 col-lg-3 col-xl-2 text-nowrap d-flex d-xl-flex align-items-center align-items-xl-center">
+                                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
+                                                            <option value="10" selected="">10</option>
+                                                            <option value="25">25</option>
+                                                            <option value="50">50</option>
+                                                            <option value="100">100</option>
+                                                        </select>&nbsp;</label></div>
+                                            </div>
+                                            <div class="col-md-3 col-lg-4 col-xl-5 d-lg-flex justify-content-lg-start">
+                                                <div class="dropdown d-flex d-sm-flex justify-content-end align-items-center justify-content-sm-end"><button class="btn btn-primary d-flex align-items-center m-1" aria-expanded="false" data-bs-toggle="dropdown" type="button">Sort&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-symmetry-horizontal">
+                                                            <path d="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376M11.539 10H3v4.658L11.54 10z"></path>
+                                                        </svg></button>
+                                                    <div class="dropdown-menu"><a class="dropdown-item" href="#">A to Z</a><a class="dropdown-item" href="#">Z to A</a><a class="dropdown-item" href="#">Third Item</a></div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-lg-5 col-xl-5 col-xxl-5">
+                                                <div class="text-md-end d-flex d-sm-flex justify-content-end justify-content-sm-end"><a href="#"><button class="btn btn-primary m-1" type="button">Filter / Reset</button></a><label class="form-label"></label></div>
+                                            </div>
+                                        </div>
+                                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                            <table class="table my-0" id="dataTable">
+                                                <thead>
+                                                    <tr>
+                                                        <th style="min-width: 6em;">Number</th>
+                                                        <th style="min-width: 16em;">Title</th>
+                                                        <th style="min-width: 3em;text-align: center;">GU</th>
+                                                        <th style="text-align: center;">CH</th>
+                                                        <th style="text-align: center;">Frequency</th>
+                                                        <th style="text-align: center;">Active</th>
+                                                        <th style="/*min-width: 13em;*/"></th>
+                                                    </tr>
+                                                </thead>
+                                                <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
+                                                        <tr>
+                                                            <th><div class="my-2"><input type="search" name="number" class="form-control form-control-sm" placeholder="Number"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="title" class="form-control form-control-sm" placeholder="Title"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="gu" class="form-control form-control-sm" placeholder="GU"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="ch" class="form-control form-control-sm" placeholder="CH"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="frequency" class="form-control form-control-sm" placeholder="Frequency"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="active" class="form-control form-control-sm" placeholder="Active"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="description" class="form-control form-control-sm" placeholder="Description"></div></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <hr>
+                                                <tbody>
+
+                                                {% if courses %}
+                                                    {% for course in courses %}
+                                                        <!-- Start: Faculty Row -->
+                                                        <tr style="font-size: small;">
+                                                            <td>{{ course.course_code }}</td>
+                                                            <td>{{ course.course_name }}</td>
+                                                            <td style="text-align: center;">U</td>
+                                                            <td style="text-align: center;">{{ course.course_credit }}</td>
+                                                            <td style="text-align: center;">1</td>
+                                                            <td style="text-align: center;">Yes</td>
+                                                            <td class="text-truncate">{{ course.course_description }}</td>
+                                                        </tr><!-- End: Faculty Row -->
+                                                    {% endfor %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td colspan="7">No courses found</td>
+                                                    </tr>
+                                                {% endif %}
+
+
+
+
+
+
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <td style="min-width: 6em;"><strong>Number</strong></td>
+                                                        <td style="min-width: 16em;"><strong>Title</strong></td>
+                                                        <td style="text-align: center;"><strong>GU</strong></td>
+                                                        <td style="text-align: center;"><strong>CH</strong></td>
+                                                        <td style="text-align: center;"><strong>Frequency</strong></td>
+                                                        <td style="text-align: center;"><strong>Active</strong></td>
+                                                        <td style="font-weight: bolder;"></td>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6 align-self-center">
+                                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                                    <ul class="pagination">
+                                                        <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                                        <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="tab-2">
+                                <p>Content for tab 2.</p>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="tab-3">
+                                <p>Content for tab 3.</p>
+                            </div>
+                            <div class="tab-pane" role="tabpanel" id="tab-4">
+                                <p>Tab content.</p>
+                            </div>
+                        </div>
+                    </div>
+
+{% endblock %}
+{% block scripts %}
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>-->
+<script src="{% static 'assets/js/bs-init.js'%}"></script>
+<script src="{% static 'assets/js/theme.js'%}"></script>
+{% endblock %}
+
+
+
+
+
