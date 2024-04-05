@@ -48,6 +48,7 @@
 {#              <li class="nav-item">#}
 {#                <a class="nav-link" style="color: white" href="{% url 'dashboard:home' %}">Dashboard <span class="sr-only">(current)</span></a>#}
 {#              </li>#}
+
               <li class="nav-item">
                 <a class="nav-link" style="color: white" href="{% url 'dashboard:faculty' %}">Faculty</a>
               </li>
@@ -74,14 +75,24 @@
 {##}
 {#                </div>#}
 {#              </li>#}
+
             </ul>
+              <ul class="navbar-nav fw-bold mx-2">
+                  {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:logout_user' %}">Logout, {{ user }}</a>
+                {% elif user.is_anonymous %}
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:login_user' %}">Login</a>
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:register_user' %}">Register</a>
+                {% endif %}
+              </ul>
           </div>
         </nav>
         <div class="m-5">
             {% block content %}
 
                 <div class="d-sm-flex justify-content-between align-items-center mb-4">
-                    <h3 class="text-dark mb-0">Dashboard</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a>
+                    <h3 class="text-dark mb-0">Dashboard, Welcome {{ user }}</h3><a class="btn btn-primary btn-sm d-none d-sm-inline-block" role="button" href="#"><i class="fas fa-download fa-sm text-white-50"></i>&nbsp;Generate Report</a>
                 </div>
 {#                <div class="row">#}
 {#                    <div class="col-md-6 col-xl-3 mb-4">#}

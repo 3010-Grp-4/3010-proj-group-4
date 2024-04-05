@@ -5,6 +5,8 @@ A starter project for undergrad students to gain familiarity with VMs and Web De
 ---
 ![Faculty View](Faculty(2024-02-29).png "Faculty View")
 ![Courses View](Courses(2024-02-29).png "Course View")
+![Faculty View](login_15-3-2024.jpeg "Login View")
+![Courses View](register.jpeg "Register View")
 ---
 
 
