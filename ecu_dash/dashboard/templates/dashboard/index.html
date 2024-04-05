@@ -80,10 +80,10 @@
               <ul class="navbar-nav fw-bold mx-2">
                   {% if user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:logout_user' %}">Logout, {{ user }}</a>
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:logout' %}">Logout, {{ user }}</a>
                 {% elif user.is_anonymous %}
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:login_user' %}">Login</a>
-                    <a class="nav-link" style="color: white" href="{% url 'dashboard:register_user' %}">Register</a>
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:login' %}">Login</a>
+                    <a class="nav-link" style="color: white" href="{% url 'dashboard:register' %}">Register</a>
                 {% endif %}
               </ul>
           </div>
