@@ -7,6 +7,9 @@ from django.shortcuts import render, redirect
 from dashboard import models
 from django.urls import reverse
 
+from .models import Faculty
+from django.db.models import Q
+
 
 # Create your views here.
 
@@ -19,9 +22,41 @@ def home(request):
 #     return render(request, 'dashboard/about.html')
 
 def faculty(request):
-    current_faculty = models.Faculty.objects.all()
+    faculties = Faculty.objects.all()
+
+    # Start with an empty Q object
+    query = Q()
+
+    # Retrieve query parameters
+    name = request.GET.get('name')
+    email = request.GET.get('email')
+    rank = request.GET.get('rank')
+    phone = request.GET.get('phone')
+    office = request.GET.get('office')
+    research_interest = request.GET.get('research_interest')
+    remarks = request.GET.get('remarks')
+
+    # Dynamically build the query based on the presence of parameters
+    if name:
+        query &= Q(user__username__icontains=name)
+    if email:
+        query &= Q(email__icontains=email)
+    if rank:
+        query &= Q(position__icontains=rank)
+    if phone:
+        query &= Q(phone__icontains=phone)
+    if office:
+        query &= Q(office__icontains=office)
+    if research_interest:
+        query &= Q(research_interest__icontains=research_interest)
+    if remarks:
+        query &= Q(remarks__icontains=remarks)
+
+    # Apply the constructed query to filter faculties
+    faculties = faculties.filter(query)
+
     context = {
-        'faculty': current_faculty
+        'faculty': faculties,
     }
     return render(request, 'dashboard/faculty.html', context)
 
@@ -31,6 +66,10 @@ def faculty(request):
 
 def courses(request):
     return render(request, 'dashboard/courses.html')
+
+
+def fte(request):
+    return render(request, 'dashboard/fte.html')
 
 
 def profile(request):

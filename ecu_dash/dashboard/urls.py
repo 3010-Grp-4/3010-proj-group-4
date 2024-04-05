@@ -20,9 +20,10 @@ from dashboard import views
 app_name = 'dashboard'
 
 urlpatterns = [
-    path('dashboard/', views.home, name='home'),
+    # path('dashboard/', views.home, name='home'),
     path('', views.faculty, name='faculty'),
     path('courses/', views.courses, name='courses'),
+    path('fte/', views.fte, name='fte'),
     path('profile/', views.profile, name='profile'),
     path('table/', views.table, name='table'),
     path('login/', views.login_view, name='login'),

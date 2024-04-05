@@ -45,32 +45,35 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav fw-bold">
-              <li class="nav-item active">
-                <a class="nav-link" style="color: white" href="{% url 'dashboard:home' %}">Dashboard <span class="sr-only">(current)</span></a>
-              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" style="color: white" href="{% url 'dashboard:home' %}">Dashboard <span class="sr-only">(current)</span></a>#}
+{#              </li>#}
               <li class="nav-item">
                 <a class="nav-link" style="color: white" href="{% url 'dashboard:faculty' %}">Faculty</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" style="color: white" href="{% url 'dashboard:courses' %}">Courses</a>
               </li>
-                <li class="nav-item">
-                <a class="nav-link" style="color: white" href="{% url 'dashboard:profile' %}">Profile</a>
+              <li class="nav-item">
+                <a class="nav-link" style="color: white" href="{% url 'dashboard:fte' %}">FTE</a>
               </li>
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" style="color: white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Resources
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                 {% if request.user.is_authenticated %}
-                     <a class="dropdown-item" href="{% url 'dashboard:logout' %}">Logout</a>
-                 {% else %}
-                     <a class="dropdown-item" href="{% url 'dashboard:login' %}">Login</a>
-                     <a class="dropdown-item" href="{% url 'dashboard:register' %}">Register</a>
-                 {% endif %}
-
-                </div>
-              </li>
+{#              <li class="nav-item">#}
+{#                <a class="nav-link" style="color: white" href="{% url 'dashboard:profile' %}">Profile</a>#}
+{#              </li>#}
+{#              <li class="nav-item dropdown">#}
+{#                <a class="nav-link dropdown-toggle" style="color: white" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+{#                  Resources#}
+{#                </a>#}
+{#                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">#}
+{#                 {% if request.user.is_authenticated %}#}
+{#                     <a class="dropdown-item" href="{% url 'dashboard:logout' %}">Logout</a>#}
+{#                 {% else %}#}
+{#                     <a class="dropdown-item" href="{% url 'dashboard:login' %}">Login</a>#}
+{#                     <a class="dropdown-item" href="{% url 'dashboard:register' %}">Register</a>#}
+{#                 {% endif %}#}
+{##}
+{#                </div>#}
+{#              </li>#}
             </ul>
           </div>
         </nav>
