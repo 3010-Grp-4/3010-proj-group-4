@@ -56,6 +56,13 @@ def faculty(request):
     # Apply the constructed query to filter faculties
     faculties = faculties.filter(query)
 
+    # Sorting logic
+    sort_order = request.GET.get('sort', 'asc')  # Default to ascending order
+    if sort_order == 'desc':
+        faculties = faculties.order_by('-user')  # Descending sort
+    else:
+        faculties = faculties.order_by('user')  # Ascending sort
+
     context = {
         'faculty': faculties,
     }
