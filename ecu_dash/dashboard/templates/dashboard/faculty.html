@@ -45,12 +45,23 @@
             <form method="get" action="">
                 <div class="row">
                     <div class="col-md-6 text-nowrap">
-                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                    <option value="10" selected="">10</option>
-                                    <option value="25">25</option>
-                                    <option value="50">50</option>
-                                    <option value="100">100</option>
-                                </select>&nbsp;</label></div>
+<!--                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">-->
+<!--                            <label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">-->
+<!--                                    <option value="10" selected="">10</option>-->
+<!--                                    <option value="25">25</option>-->
+<!--                                    <option value="50">50</option>-->
+<!--                                    <option value="100">100</option>-->
+<!--                                </select>&nbsp;</label>-->
+<!--                        </div>-->
+                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+                                <label class="form-label">Sort&nbsp;
+                                    <select class="d-inline-block form-select form-select-sm" name="sort">
+                                        <option value="asc">A to Z</option>
+                                        <option value="desc">Z to A</option>
+                                    </select>
+                                &nbsp;</label>
+                            </div>
+
                     </div>
                     <div class="col-md-6">
 
@@ -92,11 +103,11 @@
                             {% for faculty in faculty %}
                             <!-- Start: Faculty Row -->
                                 <tr style="font-size: small;">
-                                    <td><img class="rounded-circle me-2" width="30" height="30" src="{{ faculty.img_url }}">{{ faculty.name }}</td>
+                                    <td><img class="rounded-circle me-2" width="30" height="30" src="{{ faculty.img_url }}">{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
                                     <td>{{ faculty.position }}</td>
-                                    <td>{{ faculty.email }}</td>
+                                    <td>{{ faculty.user.email }}</td>
                                     <td>{{ faculty.phone }}</td>
-                                    <td>{{ faculty.office }}</td>
+                                    <td>{{ faculty.department }}</td>
                                     <td>{{ faculty.research_interest }}</td>
                                     <td>{{ faculty.remarks }}</td>
                                 </tr>
