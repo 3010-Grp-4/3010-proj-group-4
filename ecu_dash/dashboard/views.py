@@ -131,9 +131,42 @@ def fte(request):
     # Apply the constructed query to filter faculties
     faculties = faculties.filter(query)
 
+    # Prepare a mapping for FTE divisor based on course type
+    fte_divisor = {
+        'CSCI_graduate': 186.23,
+        'CSCI_undergrad': 406.24,
+        'SENG_graduate': 90.17,
+        'SENG_undergrad': 232.25,
+        'DASC': 186.23,  # Assuming the same divisor for both graduate and undergraduate
+    }
+
+    # Calculate FTE for each faculty based on their courses
+    # for faculty in faculties:
+    #     total_fte = 0
+    #     for course in faculty.course_set.all():
+    #         # Determine the course type
+    #         course_type = f'{course.department}_{course.level}'
+    #         # Find the appropriate divisor from the mapping
+    #         divisor = fte_divisor.get(course_type, 1)  # Fallback to 1 if not found
+    #         # Calculate the FTE and add it to the total
+    #         total_fte += (course.credit_hours * course.enrollment) / divisor
+    #     # Assign the calculated FTE to the faculty object
+    #     faculty.total_fte = total_fte
+    #
+    # # Pass faculties to context
+    # context = {
+    #     'faculty': faculties,
+    # }
+
+    # Add FTE calculation for each faculty
+    for faculty in faculties:
+        faculty_courses = Course.objects.filter(course_faculty=faculty)
+        faculty.fte = sum(course.calculate_fte() for course in faculty_courses)
+
     context = {
         'faculty': faculties,
     }
+
     return render(request, 'dashboard/fte.html', context)
 
 
