@@ -30,10 +30,10 @@ RUN service postgresql start && \
     su - postgres -c "createdb ecu_dash_db -O appuser"
 
 # [OPTIONAL] Copy the backup SQL file into the container
-#COPY ecu_dash_bu_sever.sql /app/
+#COPY ecu_dash_bu.sql /app/
 # Restore the database from the backup file
 #RUN service postgresql start && \
-#    su - postgres -c "psql ecu_dash_db < /app/ecu_dash_bu_sever.sql"
+#    su - postgres -c "psql ecu_dash_db < /app/ecu_dash_bu.sql"
 
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
