@@ -39,9 +39,9 @@ def faculty(request):
 
     # Dynamically build the query based on the presence of parameters
     if name:
-        query &= Q(user__username__icontains=name)
+        query &= Q(user__first_name__icontains=name) | Q(user__last_name__icontains=name)
     if email:
-        query &= Q(email__icontains=email)
+        query &= Q(user__email__icontains=email)
     if rank:
         query &= Q(position__icontains=rank)
     if phone:
@@ -73,25 +73,49 @@ def faculty(request):
 #     return render(request, 'dashboard/students.html')
 
 def courses(request):
+    # Start with all courses
     uni_courses = Course.objects.all()
 
-    if uni_courses is not None:
-        try:
-            for course in uni_courses:
-                if course.course_code.startswith('CSCI'):
-                    if course.course_faculty == 'Graduate':  # Adjust conditions as needed
-                        course.fte = (course.course_credit * course.enrollment) / course.csci_graduate_divisor
-                    else:
-                        course.fte = (course.course_credit * course.enrollment) / course.csci_undergraduate_divisor
-                # ... similar logic for other departments
-                else:
-                    print('Course not found')
-        except Exception as e:
-            print('Error: ', e)
-    else:
-        print('No courses found')
+    # Retrieve query parameters for filtering
+    course_code = request.GET.get('code')
+    course_name = request.GET.get('name')
+    course_ch = request.GET.get('ch')
+    course_description = request.GET.get('description')
 
-    return render(request, 'dashboard/courses-1.html', {'courses': uni_courses})
+    print("Course code received:", course_code)
+    print("Course name received:", course_name)
+    print("Course CH received:", course_ch)
+
+    # Filtering based on course name or code
+    if course_code:
+        uni_courses = uni_courses.filter(course_code__icontains=course_code)
+    if course_name:
+        uni_courses = uni_courses.filter(course_name__icontains=course_name)
+    if course_ch:
+        try:
+            course_ch_value = float(course_ch)
+            uni_courses = uni_courses.filter(course_credit__gte=course_ch_value)
+        except ValueError:
+            print("Invalid input for course credit.")
+    if course_description:
+        uni_courses = uni_courses.filter(course_description__icontains=course_description)
+
+    # Sorting logic
+    sort_order = request.GET.get('sort', 'asc')
+    sort_by = request.GET.get('sort_by', 'course_code')  # Use a sort_by parameter
+    if sort_order == 'desc':
+        uni_courses = uni_courses.order_by(f'-{sort_by}')
+    else:
+        uni_courses = uni_courses.order_by(sort_by)
+
+    # Create the context for the template
+    context = {
+        'courses': uni_courses,
+    }
+
+    # Render the course list page with the courses context
+    return render(request, 'dashboard/courses-1.html', context)
+
 
 
 def fte(request):
@@ -101,39 +125,43 @@ def fte(request):
     query = Q()
 
     # Retrieve query parameters
-    course_code = request.GET.get('course_code')
-    position = request.GET.get('rank')
-    course_name = request.GET.get('course_name')
-    course_credit = request.GET.get('course_credit')
-    graduate_divisor = request.GET.get('research_interest')
-    undergraduate_divisor = request.GET.get('undergraduate_divisor')
-    course_faculty = request.GET.get('course_faculty')
-    course_description = request.GET.get('course_description')
+    faculty_name = request.GET.get('faculty_name')
+    year_of_joining = request.GET.get('year')
+    semester = request.GET.get('semester')
+    fte_value = request.GET.get('fte')
 
     # Dynamically build the query based on the presence of parameters
-    if course_code:
-        query &= Q(email__icontains=course_code)
-    if course_name:
-        query &= Q(position__icontains=course_name)
-    if course_credit:
-        query &= Q(phone__icontains=course_credit)
-    if position:
-        query &= Q(office__icontains=position)
-    if graduate_divisor:
-        query &= Q(office__icontains=graduate_divisor)
-    if undergraduate_divisor:
-        query &= Q(research_interest__icontains=undergraduate_divisor)
-    if course_faculty:
-        query &= Q(remarks__icontains=course_faculty)
-    if course_description:
-        query &= Q(remarks__icontains=course_description)
+    if faculty_name:
+        query &= Q(user__first_name__icontains=faculty_name) | Q(user__last_name__icontains=faculty_name)
+    if year_of_joining:
+        query &= Q(year_of_joining__icontains=year_of_joining)
+    if semester:
+        query &= Q(course_semester__icontains=semester)
+    if fte_value:
+        query &= Q(fte__icontains=fte_value)
 
     # Apply the constructed query to filter faculties
     faculties = faculties.filter(query)
 
+    # Prepare a mapping for FTE divisor based on course type
+    fte_divisor = {
+        'CSCI_graduate': 186.23,
+        'CSCI_undergrad': 406.24,
+        'SENG_graduate': 90.17,
+        'SENG_undergrad': 232.25,
+        'DASC': 186.23,  # Assuming the same divisor for both graduate and undergraduate
+    }
+
+    # Calculate FTE for each faculty based on their courses
+    for faculty in faculties:
+        faculty_courses = faculty.course_set.all()  # Retrieve all courses associated with the faculty
+        faculty.fte = sum(
+            course.calculate_fte() for course in faculty_courses)  # Calculate FTE using the method in the Course model
+
     context = {
         'faculty': faculties,
     }
+
     return render(request, 'dashboard/fte.html', context)
 
 

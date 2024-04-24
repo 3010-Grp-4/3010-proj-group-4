@@ -43,6 +43,7 @@
         <div class="card-body">
             <!-- Start: Filter Form -->
             <form method="get" action="">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6 text-nowrap">
 <!--                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">-->
@@ -53,14 +54,14 @@
 <!--                                    <option value="100">100</option>-->
 <!--                                </select>&nbsp;</label>-->
 <!--                        </div>-->
-                            <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
-                                <label class="form-label">Sort&nbsp;
-                                    <select class="d-inline-block form-select form-select-sm" name="sort">
-                                        <option value="asc">A to Z</option>
-                                        <option value="desc">Z to A</option>
-                                    </select>
-                                &nbsp;</label>
-                            </div>
+                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+                            <label class="form-label">Sort&nbsp;
+                                <select class="d-inline-block form-select form-select-sm" name="sort">
+                                    <option value="asc">A to Z</option>
+                                    <option value="desc">Z to A</option>
+                                </select>
+                            &nbsp;</label>
+                        </div>
 
                     </div>
                     <div class="col-md-6">
@@ -72,67 +73,69 @@
                     </div>
                 </div>
 
-                <!-- Start: Filter Form -->
-                <form method="get" action="">
-                    <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                        <table class="table my-0" id="dataTable">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Rank</th>
-                                    <th>Email</th>
-                                    <th>Phone</th>
-                                    <th>Office</th>
-                                    <th>Research Interests</th>
-                                    <th>Remarks</th>
-                                </tr>
-                            </thead>
-                            <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
-                                <tr>
-                                    <th><div class="my-2"><input type="search" name="name" class="form-control form-control-sm" placeholder="Name"></div></th>
-                                    <th><div class="my-2"><input type="search" name="rank" class="form-control form-control-sm" placeholder="Rank"></div></th>
-                                    <th><div class="my-2"><input type="search" name="email" class="form-control form-control-sm" placeholder="Email"></div></th>
-                                    <th><div class="my-2"><input type="search" name="phone" class="form-control form-control-sm" placeholder="Phone"></div></th>
-                                    <th><div class="my-2"><input type="search" name="office" class="form-control form-control-sm" placeholder="Office"></div></th>
-                                    <th><div class="my-2"><input type="search" name="research_interest" class="form-control form-control-sm" placeholder="Research Interests"></div></th>
-                                    <th><div class="my-2"><input type="search" name="remarks" class="form-control form-control-sm" placeholder="Remarks"></div></th>
-                                </tr>
-                            </thead>
-                            <!-- Table Body and Footer remain the same -->
-                            <tbody>
-                            {% for faculty in faculty %}
-                            <!-- Start: Faculty Row -->
-                                <tr style="font-size: small;">
-                                    <td><img class="rounded-circle me-2" width="30" height="30" src="{{ faculty.img_url }}">{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
-                                    <td>{{ faculty.position }}</td>
-                                    <td>{{ faculty.user.email }}</td>
-                                    <td>{{ faculty.phone }}</td>
-                                    <td>{{ faculty.department }}</td>
-                                    <td>{{ faculty.research_interest }}</td>
-                                    <td>{{ faculty.remarks }}</td>
-                                </tr>
-                            <!-- End: Faculty Row -->
-                            {% endfor %}
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td><strong>Name</strong></td>
-                                    <td><strong>Rank</strong></td>
-                                    <td><strong>Email</strong></td>
-                                    <td><strong>Phone</strong></td>
-                                    <td><strong>Office</strong></td>
-                                    <td><strong>Research Interests</strong></td>
-                                    <td style="font-weight: bolder;">Remarks</td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="text-end mt-2">
-                        <button type="submit" class="btn btn-primary my-4" style="border-width: 2px;border-color: transparent;font-weight: bold">Filter / Reset</button>
-                    </div>
-                </form>
-                <!-- End: Filter Form -->
+            <!-- Start: Filter Form -->
+{#            <form method="get" action="">#}
+                <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                    <table class="table my-0" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Rank</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Office</th>
+                                <th>Research Interests</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
+                            <tr>
+                                <th><div class="my-2"><input type="search" name="name" class="form-control form-control-sm" placeholder="Name"></div></th>
+                                <th><div class="my-2"><input type="search" name="rank" class="form-control form-control-sm" placeholder="Rank"></div></th>
+                                <th><div class="my-2"><input type="search" name="email" class="form-control form-control-sm" placeholder="Email"></div></th>
+                                <th><div class="my-2"><input type="search" name="phone" class="form-control form-control-sm" placeholder="Phone"></div></th>
+                                <th><div class="my-2"><input type="search" name="office" class="form-control form-control-sm" placeholder="Office"></div></th>
+                                <th><div class="my-2"><input type="search" name="research_interest" class="form-control form-control-sm" placeholder="Research Interests"></div></th>
+                                <th><div class="my-2"><input type="search" name="remarks" class="form-control form-control-sm" placeholder="Remarks"></div></th>
+                            </tr>
+                        </thead>
+                        <!-- Table Body and Footer remain the same -->
+                        <tbody>
+                        {% for faculty in faculty %}
+                        <!-- Start: Faculty Row -->
+                            <tr style="font-size: small;">
+                                <td><img class="rounded-circle me-2" width="30" height="30" src="{{ faculty.img_url }}">{{ faculty.user.first_name }} {{ faculty.user.last_name }}</td>
+                                <td>{{ faculty.position }}</td>
+                                <td>{{ faculty.user.email }}</td>
+                                <td>{{ faculty.phone }}</td>
+                                <td>{{ faculty.department }}</td>
+                                <td>{{ faculty.research_interest }}</td>
+                                <td>{{ faculty.remarks }}</td>
+                            </tr>
+                        <!-- End: Faculty Row -->
+                        {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td><strong>Name</strong></td>
+                                <td><strong>Rank</strong></td>
+                                <td><strong>Email</strong></td>
+                                <td><strong>Phone</strong></td>
+                                <td><strong>Office</strong></td>
+                                <td><strong>Research Interests</strong></td>
+                                <td style="font-weight: bolder;">Remarks</td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="text-end mt-2">
+                    <button type="submit" class="btn btn-primary my-4" style="border-width: 2px;border-color: transparent;font-weight: bold">Filter / Reset</button>
+                </div>
+            </form>
+            <!-- End: Filter Form -->
 
+            <form method="get" action="">
+                {% csrf_token %}
                 <div class="row">
                     <div class="col-md-6 align-self-center">
                         <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 1</p>

@@ -79,9 +79,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'railway',
         'USER': 'postgres',
-        'PASSWORD': 'PlgySPMQTAgArihPsCyJXZotNTTMbJZX',
-        'HOST': 'viaduct.proxy.rlwy.net',
-        'PORT': '44470',
+        'PASSWORD': 'bfNcadPKrPHwYODqrPdOZYVXoGVeZruq',
+        'HOST': 'roundhouse.proxy.rlwy.net',
+        'PORT': '51841',
     }
 }
 
@@ -121,6 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Different from 'ecu_dash/static'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static/')
