@@ -39,9 +39,9 @@ def faculty(request):
 
     # Dynamically build the query based on the presence of parameters
     if name:
-        query &= Q(user__username__icontains=name)
+        query &= Q(user__first_name__icontains=name) | Q(user__last_name__icontains=name)
     if email:
-        query &= Q(email__icontains=email)
+        query &= Q(user__email__icontains=email)
     if rank:
         query &= Q(position__icontains=rank)
     if phone:
@@ -73,13 +73,15 @@ def faculty(request):
 #     return render(request, 'dashboard/students.html')
 
 def courses(request):
+    # Start with all courses
     uni_courses = Course.objects.all()
 
+    # Calculate FTE for each course
     if uni_courses is not None:
         try:
             for course in uni_courses:
                 if course.course_code.startswith('CSCI'):
-                    if course.is_graduate  == 'Graduate':  # Adjust conditions as needed
+                    if course.is_graduate == 'Graduate':  # Adjust conditions as needed
                         course.fte = (course.course_credit * course.enrollment) / course.csci_graduate_divisor
                     else:
                         course.fte = (course.course_credit * course.enrollment) / course.csci_undergraduate_divisor
@@ -91,7 +93,33 @@ def courses(request):
     else:
         print('No courses found')
 
-    return render(request, 'dashboard/courses-1.html', {'courses': uni_courses})
+    # Retrieve query parameters for filtering
+    course_name = request.GET.get('name')
+    course_code = request.GET.get('code')
+
+    # Filtering based on course name or code
+    if course_name:
+        uni_courses = uni_courses.filter(course_name__icontains=course_name)
+    if course_code:
+        uni_courses = uni_courses.filter(course_code__icontains=course_code)
+
+    # Sorting logic
+    sort_by = request.GET.get('sort_by')
+    sort_order = request.GET.get('sort_order', 'asc')
+
+    if sort_by:
+        if sort_order == 'desc':
+            uni_courses = uni_courses.order_by('-{}'.format(sort_by))
+        else:
+            uni_courses = uni_courses.order_by(sort_by)
+
+    # Create the context for the template
+    context = {
+        'courses': uni_courses,
+    }
+
+    # Render the course list page with the courses context
+    return render(request, 'dashboard/courses-1.html', context)
 
 
 def fte(request):
