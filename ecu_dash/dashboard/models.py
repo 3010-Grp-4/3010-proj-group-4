@@ -8,6 +8,12 @@ DEPARTMENT_CHOICES = [
         ('DASC', 'Data Science'),
     ]
 
+SEMESTER_CHOICES = [
+    ('spring', 'Spring'),
+    ('fall', 'Fall'),
+    ('summer', 'Summer'),
+]
+
 
 class UserSetting(models.Model):
     user = models.ForeignKey('auth.User', on_delete=models.CASCADE)
@@ -40,6 +46,7 @@ class Faculty(models.Model):
 class Course(models.Model):
     course_code = models.CharField(max_length=10, unique=True, blank=True, null=True)
     course_name = models.CharField(max_length=100)
+    course_semester = models.CharField(choices=SEMESTER_CHOICES, max_length=6, blank=True, null=True)
     course_description = models.CharField(max_length=500, blank=True, null=True)
     course_credit = models.FloatField(blank=True, null=True)
     graduate_divisor = models.FloatField(blank=True, null=True)

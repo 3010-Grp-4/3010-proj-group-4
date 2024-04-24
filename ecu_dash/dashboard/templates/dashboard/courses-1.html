@@ -103,7 +103,7 @@
                                                         <tr style="font-size: small;">
                                                             <td>{{ course.course_code }}</td>
                                                             <td>{{ course.course_name }}</td>
-                                                            <td style="text-align: center;">U</td>
+                                                            <td style="text-align: center;">{% if course.is_graduate %}G{% else %}U{% endif %}</td>
                                                             <td style="text-align: center;">{{ course.course_credit }}</td>
                                                             <td style="text-align: center;">1</td>
                                                             <td style="text-align: center;">Yes</td>

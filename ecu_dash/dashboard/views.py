@@ -79,7 +79,7 @@ def courses(request):
         try:
             for course in uni_courses:
                 if course.course_code.startswith('CSCI'):
-                    if course.course_faculty == 'Graduate':  # Adjust conditions as needed
+                    if course.is_graduate  == 'Graduate':  # Adjust conditions as needed
                         course.fte = (course.course_credit * course.enrollment) / course.csci_graduate_divisor
                     else:
                         course.fte = (course.course_credit * course.enrollment) / course.csci_undergraduate_divisor
@@ -101,32 +101,20 @@ def fte(request):
     query = Q()
 
     # Retrieve query parameters
-    course_code = request.GET.get('course_code')
-    position = request.GET.get('rank')
-    course_name = request.GET.get('course_name')
-    course_credit = request.GET.get('course_credit')
-    graduate_divisor = request.GET.get('research_interest')
-    undergraduate_divisor = request.GET.get('undergraduate_divisor')
-    course_faculty = request.GET.get('course_faculty')
-    course_description = request.GET.get('course_description')
+    faculty_name = request.GET.get('faculty_name')
+    year_of_joining = request.GET.get('year')
+    semester = request.GET.get('semester')
+    fte_value = request.GET.get('fte')
 
     # Dynamically build the query based on the presence of parameters
-    if course_code:
-        query &= Q(email__icontains=course_code)
-    if course_name:
-        query &= Q(position__icontains=course_name)
-    if course_credit:
-        query &= Q(phone__icontains=course_credit)
-    if position:
-        query &= Q(office__icontains=position)
-    if graduate_divisor:
-        query &= Q(office__icontains=graduate_divisor)
-    if undergraduate_divisor:
-        query &= Q(research_interest__icontains=undergraduate_divisor)
-    if course_faculty:
-        query &= Q(remarks__icontains=course_faculty)
-    if course_description:
-        query &= Q(remarks__icontains=course_description)
+    if faculty_name:
+        query &= Q(user__first_name__icontains=faculty_name) | Q(user__last_name__icontains=faculty_name)
+    if year_of_joining:
+        query &= Q(year_of_joining__icontains=year_of_joining)
+    if semester:
+        query &= Q(course_semester__icontains=semester)
+    if fte_value:
+        query &= Q(fte__icontains=fte_value)
 
     # Apply the constructed query to filter faculties
     faculties = faculties.filter(query)
@@ -141,27 +129,10 @@ def fte(request):
     }
 
     # Calculate FTE for each faculty based on their courses
-    # for faculty in faculties:
-    #     total_fte = 0
-    #     for course in faculty.course_set.all():
-    #         # Determine the course type
-    #         course_type = f'{course.department}_{course.level}'
-    #         # Find the appropriate divisor from the mapping
-    #         divisor = fte_divisor.get(course_type, 1)  # Fallback to 1 if not found
-    #         # Calculate the FTE and add it to the total
-    #         total_fte += (course.credit_hours * course.enrollment) / divisor
-    #     # Assign the calculated FTE to the faculty object
-    #     faculty.total_fte = total_fte
-    #
-    # # Pass faculties to context
-    # context = {
-    #     'faculty': faculties,
-    # }
-
-    # Add FTE calculation for each faculty
     for faculty in faculties:
-        faculty_courses = Course.objects.filter(course_faculty=faculty)
-        faculty.fte = sum(course.calculate_fte() for course in faculty_courses)
+        faculty_courses = faculty.course_set.all()  # Retrieve all courses associated with the faculty
+        faculty.fte = sum(
+            course.calculate_fte() for course in faculty_courses)  # Calculate FTE using the method in the Course model
 
     context = {
         'faculty': faculties,
