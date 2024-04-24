@@ -50,103 +50,123 @@
                         <p class="m-0 fw-bold" style="color: black;">Course Info</p>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <form action="" method="get">
-                                {% csrf_token %}
-                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
-                                    <label class="form-label">Sort&nbsp;
-                                        <select class="d-inline-block form-select form-select-sm" name="sort">
-                                            <option value="asc">A to Z</option>
-                                            <option value="desc">Z to A</option>
-                                        </select>
-                                    &nbsp;</label>
+                        <!-- Start: Filter Form -->
+                        <form method="get" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 text-nowrap">
+            <!--                        <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">-->
+            <!--                            <label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">-->
+            <!--                                    <option value="10" selected="">10</option>-->
+            <!--                                    <option value="25">25</option>-->
+            <!--                                    <option value="50">50</option>-->
+            <!--                                    <option value="100">100</option>-->
+            <!--                                </select>&nbsp;</label>-->
+            <!--                        </div>-->
+                                    <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+                                        <label class="form-label">Sort&nbsp;
+                                            <select class="d-inline-block form-select form-select-sm" name="sort">
+                                                <option value="asc">A to Z</option>
+                                                <option value="desc">Z to A</option>
+                                            </select>
+                                        &nbsp;</label>
+                                    </div>
+
                                 </div>
-                            </form>
-                            <div class="col-md-4 col-lg-5 col-xl-5 col-xxl-5">
-                                <div class="text-md-end d-flex d-sm-flex justify-content-end justify-content-sm-end"><a href="#"><button class="btn btn-primary m-1" type="button">Filter / Reset</button></a><label class="form-label"></label></div>
+                                <div class="col-md-6">
+
+                                    <div class="text-md-end">
+                                        <label class="form-label"><input type="search" class="form-control form-control-sm" aria-controls="dataTable" placeholder="Search"></label></div>
+
+
+                                </div>
                             </div>
-                        </div>
-                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
-                            <table class="table my-0" id="dataTable">
-                                <thead>
-                                    <tr>
-                                        <th style="min-width: 6em;">Number</th>
-                                        <th style="min-width: 16em;">Title</th>
-                                        <th style="min-width: 3em;text-align: center;">GU</th>
-                                        <th style="text-align: center;">CH</th>
-                                        <th style="text-align: center;">Frequency</th>
-                                        <th style="text-align: center;">Active</th>
-                                        <th style="/*min-width: 13em;*/"></th>
-                                    </tr>
-                                </thead>
-                                <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
+
+                        <!-- Start: Filter Form -->
+            {#            <form method="get" action="">#}
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
                                         <tr>
-                                            <th><div class="my-2"><input type="search" name="number" class="form-control form-control-sm" placeholder="Number"></div></th>
-                                            <th><div class="my-2"><input type="search" name="title" class="form-control form-control-sm" placeholder="Title"></div></th>
-                                            <th><div class="my-2"><input type="search" name="gu" class="form-control form-control-sm" placeholder="GU"></div></th>
-                                            <th><div class="my-2"><input type="search" name="ch" class="form-control form-control-sm" placeholder="CH"></div></th>
-                                            <th><div class="my-2"><input type="search" name="frequency" class="form-control form-control-sm" placeholder="Frequency"></div></th>
-                                            <th><div class="my-2"><input type="search" name="active" class="form-control form-control-sm" placeholder="Active"></div></th>
-                                            <th><div class="my-2"><input type="search" name="description" class="form-control form-control-sm" placeholder="Description"></div></th>
+                                            <th style="min-width:6em;">Number</th>
+                                            <th style="min-width:16em;">Title</th>
+                                            <th style="min-width:3em;text-align:center;">GU</th>
+                                            <th style="text-align:center;">CH</th>
+                                            <th style="text-align:center;">Frequency</th>
+                                            <th style="text-align:center;">Active</th>
+                                            <th style="/*min-width:13em;*/"></th>
                                         </tr>
                                     </thead>
-                                    <hr>
-                                <tbody>
-
-                                {% if courses %}
-                                    {% for course in courses %}
-                                        <!-- Start: Faculty Row -->
-                                        <tr style="font-size: small;">
-                                            <td>{{ course.course_code }}</td>
-                                            <td>{{ course.course_name }}</td>
-                                            <td style="text-align: center;">{% if course.is_graduate %}G{% else %}U{% endif %}</td>
-                                            <td style="text-align: center;">{{ course.course_credit }}</td>
-                                            <td style="text-align: center;">1</td>
-                                            <td style="text-align: center;">Yes</td>
-                                            <td class="text-truncate">{{ course.course_description }}</td>
-                                        </tr><!-- End: Faculty Row -->
-                                    {% endfor %}
-                                {% else %}
-                                    <tr>
-                                        <td colspan="7">No courses found</td>
-                                    </tr>
-                                {% endif %}
-
-
-
-
-
-
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td style="min-width: 6em;"><strong>Number</strong></td>
-                                        <td style="min-width: 16em;"><strong>Title</strong></td>
-                                        <td style="text-align: center;"><strong>GU</strong></td>
-                                        <td style="text-align: center;"><strong>CH</strong></td>
-                                        <td style="text-align: center;"><strong>Frequency</strong></td>
-                                        <td style="text-align: center;"><strong>Active</strong></td>
-                                        <td style="font-weight: bolder;"></td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6 align-self-center">
-                                <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 27</p>
+                                    <thead style="border-bottom-color:rebeccapurple;margin-bottom:10px">
+                                        <tr>
+                                            <th><div class="my-2"><input type="search" name="code" class="form-controlform-control-sm" placeholder="Code"></div></th>
+                                            <th><div class="my-2"><input type="search" name="name" class="form-controlform-control-sm" placeholder="Title"></div></th>
+                                            <th><div class="my-2"><input type="search" name="gu" class="form-controlform-control-sm" placeholder="GU"></div></th>
+                                            <th><div class="my-2"><input type="search" name="ch" class="form-controlform-control-sm" placeholder="CH"></div></th>
+                                            <th><div class="my-2"><input type="search" name="frequency" class="form-controlform-control-sm" placeholder="Frequency"></div></th>
+                                            <th><div class="my-2"><input type="search" name="active" class="form-controlform-control-sm" placeholder="Active"></div></th>
+                                            <th><div class="my-2"><input type="search" name="description" class="form-controlform-control-sm" placeholder="Description"></div></th>
+                                        </tr>
+                                    </thead>
+                                    <!-- Table Body and Footer remain the same -->
+                                    <tbody>
+                                        {% if courses %}
+                                            {% for course in courses %}
+                                                <!--Start:FacultyRow-->
+                                                <tr style="font-size:small;">
+                                                <td>{{course.course_code}}</td>
+                                                <td>{{course.course_name}}</td>
+                                                <td style="text-align:center;">{% if course.is_graduate %}G{% else %}U{% endif %}</td>
+                                                <td style="text-align:center;">{{ course.course_credit }}</td>
+                                                <td style="text-align:center;">1</td>
+                                                <td style="text-align:center;">Yes</td>
+                                                <td class="text-truncate">{{ course.course_description }}</td>
+                                                </tr><!--End:FacultyRow-->
+                                            {% endfor %}
+                                        {% else %}
+                                                <tr>
+                                                <td class="col">No courses found</td>
+                                                </tr>
+                                        {% endif %}
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td style="min-width:6em;"><strong>Code</strong></td>
+                                            <td style="min-width:16em;"><strong>Title</strong></td>
+                                            <td style="text-align:center;"><strong>GU</strong></td>
+                                            <td style="text-align:center;"><strong>CH</strong></td>
+                                            <td style="text-align:center;"><strong>Frequency</strong></td>
+                                            <td style="text-align:center;"><strong>Active</strong></td>
+                                            <td style="font-weight:bolder;"></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
-                            <div class="col-md-6">
-                                <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
-                                    <ul class="pagination">
-                                        <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
-                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
-                                    </ul>
-                                </nav>
+                            <div class="text-end mt-2">
+                                <button type="submit" class="btn btn-primary my-4" style="border-width: 2px;border-color: transparent;font-weight: bold">Filter / Reset</button>
                             </div>
-                        </div>
+                        </form>
+                        <!-- End: Filter Form -->
+
+                        <form method="get" action="">
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="col-md-6 align-self-center">
+                                    <p id="dataTable_info" class="dataTables_info" role="status" aria-live="polite">Showing 1 to 10 of 1</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <nav class="d-lg-flex justify-content-lg-end dataTables_paginate paging_simple_numbers">
+                                        <ul class="pagination">
+                                            <li class="page-item disabled"><a class="page-link" aria-label="Previous" href="#"><span aria-hidden="true">«</span></a></li>
+                                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                            <li class="page-item"><a class="page-link" aria-label="Next" href="#"><span aria-hidden="true">»</span></a></li>
+                                        </ul>
+                                    </nav>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

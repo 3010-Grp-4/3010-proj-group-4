@@ -76,42 +76,37 @@ def courses(request):
     # Start with all courses
     uni_courses = Course.objects.all()
 
-    # Calculate FTE for each course
-    if uni_courses is not None:
-        try:
-            for course in uni_courses:
-                if course.course_code.startswith('CSCI'):
-                    if course.is_graduate == 'Graduate':  # Adjust conditions as needed
-                        course.fte = (course.course_credit * course.enrollment) / course.csci_graduate_divisor
-                    else:
-                        course.fte = (course.course_credit * course.enrollment) / course.csci_undergraduate_divisor
-                # ... similar logic for other departments
-                else:
-                    print('Course not found')
-        except Exception as e:
-            print('Error: ', e)
-    else:
-        print('No courses found')
-
     # Retrieve query parameters for filtering
-    course_name = request.GET.get('name')
     course_code = request.GET.get('code')
+    course_name = request.GET.get('name')
+    course_ch = request.GET.get('ch')
+    course_description = request.GET.get('description')
+
+    print("Course code received:", course_code)
+    print("Course name received:", course_name)
+    print("Course CH received:", course_ch)
 
     # Filtering based on course name or code
-    if course_name:
-        uni_courses = uni_courses.filter(course_name__icontains=course_name)
     if course_code:
         uni_courses = uni_courses.filter(course_code__icontains=course_code)
+    if course_name:
+        uni_courses = uni_courses.filter(course_name__icontains=course_name)
+    if course_ch:
+        try:
+            course_ch_value = float(course_ch)
+            uni_courses = uni_courses.filter(course_credit__gte=course_ch_value)
+        except ValueError:
+            print("Invalid input for course credit.")
+    if course_description:
+        uni_courses = uni_courses.filter(course_description__icontains=course_description)
 
     # Sorting logic
-    sort_by = request.GET.get('sort_by')
-    sort_order = request.GET.get('sort_order', 'asc')
-
-    if sort_by:
-        if sort_order == 'desc':
-            uni_courses = uni_courses.order_by('-{}'.format(sort_by))
-        else:
-            uni_courses = uni_courses.order_by(sort_by)
+    sort_order = request.GET.get('sort', 'asc')
+    sort_by = request.GET.get('sort_by', 'course_code')  # Use a sort_by parameter
+    if sort_order == 'desc':
+        uni_courses = uni_courses.order_by(f'-{sort_by}')
+    else:
+        uni_courses = uni_courses.order_by(sort_by)
 
     # Create the context for the template
     context = {
@@ -120,6 +115,7 @@ def courses(request):
 
     # Render the course list page with the courses context
     return render(request, 'dashboard/courses-1.html', context)
+
 
 
 def fte(request):
