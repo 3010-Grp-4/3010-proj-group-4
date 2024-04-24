@@ -18,6 +18,23 @@ ENV PYTHONUNBUFFERED=1
 
 WORKDIR /app
 
+# Install PostgreSQL
+USER root
+RUN apt-get update \
+    && apt-get install -y postgresql postgresql-contrib \
+    && rm -rf /var/lib/apt/lists/*
+
+# Initialize the database and start PostgreSQL
+RUN service postgresql start && \
+    su - postgres -c "createuser --superuser appuser" && \
+    su - postgres -c "createdb ecu_dash_db -O appuser"
+
+# [OPTIONAL] Copy the backup SQL file into the container
+#COPY ecu_dash_bu_sever.sql /app/
+# Restore the database from the backup file
+#RUN service postgresql start && \
+#    su - postgres -c "psql ecu_dash_db < /app/ecu_dash_bu_sever.sql"
+
 # Create a non-privileged user that the app will run under.
 # See https://docs.docker.com/go/dockerfile-user-best-practices/
 ARG UID=10001
@@ -54,5 +71,5 @@ USER appuser
 # Expose the port that the application listens on.
 EXPOSE 8000
 
-# Run the application.
+# Command to run the application using Gunicorn
 CMD gunicorn 'ecu_dash.wsgi' --bind=0.0.0.0:8000
