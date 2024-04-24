@@ -55,62 +55,19 @@
                                         <p class="m-0 fw-bold" style="color: black;">Employee Info</p>
                                     </div>
                                     <div class="card-body">
+
                                         <div class="row">
                                             <div class="col-md-5 col-lg-3 col-xl-2 text-nowrap d-flex d-xl-flex align-items-center align-items-xl-center">
-                                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable"><label class="form-label">Show&nbsp;<select class="d-inline-block form-select form-select-sm">
-                                                            <option value="10" selected="">10</option>
-                                                            <option value="25">25</option>
-                                                            <option value="50">50</option>
-                                                            <option value="100">100</option>
-                                                        </select>&nbsp;</label></div>
-                                            </div>
-                                            <div class="col-md-3 col-lg-4 col-xl-5 d-lg-flex justify-content-lg-start">
-                                                <div class="dropdown d-flex d-sm-flex justify-content-end align-items-center justify-content-sm-end"><button class="btn btn-primary d-flex align-items-center m-1" aria-expanded="false" data-bs-toggle="dropdown" type="button">Sort&nbsp;&nbsp;<svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-symmetry-horizontal">
-                                                            <path d="M13.5 7a.5.5 0 0 0 .24-.939l-11-6A.5.5 0 0 0 2 .5v6a.5.5 0 0 0 .5.5zm.485 2.376a.5.5 0 0 1-.246.563l-11 6A.5.5 0 0 1 2 15.5v-6a.5.5 0 0 1 .5-.5h11a.5.5 0 0 1 .485.376M11.539 10H3v4.658L11.54 10z"></path>
-                                                        </svg></button>
-                                                    <div class="dropdown-menu"><a class="dropdown-item" href="#">A to Z</a><a class="dropdown-item" href="#">Z to A</a><a class="dropdown-item" href="#">Third Item</a></div>
+                                                <div id="dataTable_length" class="dataTables_length" aria-controls="dataTable">
+                                                    <label class="form-label">Sort&nbsp;
+                                                        <select class="d-inline-block form-select form-select-sm" name="sort">
+                                                            <option value="asc">A to Z</option>
+                                                            <option value="desc">Z to A</option>
+                                                        </select>
+                                                    &nbsp;</label>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4 col-lg-5 col-xl-5 col-xxl-5">
-                                                <div class="text-md-end d-flex d-sm-flex justify-content-end justify-content-sm-end"><a href="#"><button class="btn btn-primary m-1" type="button">Filter / Reset</button></a><label class="form-label"></label></div>
-                                            </div>
                                         </div>
-
-
-
-<!--                                        <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">-->
-<!--                                            <table class="table my-0" id="dataTable">-->
-<!--                                                <thead>-->
-<!--                                                    <tr>-->
-<!--                                                        <th style="min-width: 9em;">Faculty</th>-->
-<!--                                                        <th style="text-align: center;min-width: 5em;">Year</th>-->
-<!--                                                        <th style="text-align: center;">Semester</th>-->
-<!--                                                        <th style="/*min-width: 13em;*/text-align: right;">FTE</th>-->
-<!--                                                    </tr>-->
-<!--                                                </thead>-->
-<!--                                                <tbody>-->
-<!--                                                    &lt;!&ndash; Start: Faculty Row &ndash;&gt;-->
-<!--                                                    <tr style="font-size: small;">-->
-<!--                                                        <td>Dr Jonnathan McGreasily</td>-->
-<!--                                                        <td style="text-align: center;">2024</td>-->
-<!--                                                        <td style="text-align: center;">Spring</td>-->
-<!--                                                        <td class="text-truncate" style="text-align: right;">2.14</td>-->
-<!--                                                    </tr>&lt;!&ndash; End: Faculty Row &ndash;&gt;-->
-<!--                                                </tbody>-->
-<!--                                                <tfoot>-->
-<!--                                                    <tr>-->
-<!--                                                        <td style="min-width: 9em;"><strong>Faculty</strong></td>-->
-<!--                                                        <td style="text-align: center;"><strong>Year</strong></td>-->
-<!--                                                        <td style="text-align: center;"><strong>Semester</strong></td>-->
-<!--                                                        <td style="font-weight: bolder;text-align: right;">FTE</td>-->
-<!--                                                    </tr>-->
-<!--                                                </tfoot>-->
-<!--                                            </table>-->
-<!--                                        </div>-->
-
-
-
-
 
                                         <!-- Start: Filter Form -->
                                         <form method="get" action="">
@@ -119,20 +76,20 @@
                                                     <thead>
                                                         <tr>
                                                             <th style="min-width: 9em;">Faculty</th>
-                                                            <th style="text-align: center;min-width: 5em;">Year</th>
+                                                            <th style="text-align: center;min-width: 5em;">Year Joined</th>
                                                             <th style="text-align: center;">Semester</th>
                                                             <th style="/*min-width: 13em;*/text-align: right;">FTE</th>
                                                         </tr>
                                                     </thead>
                                                     <thead style="border-bottom-color: rebeccapurple; margin-bottom: 10px">
                                                         <tr>
-                                                            <th><div class="my-2"><input type="search" name="name" class="form-control form-control-sm" placeholder="Faculty"></div></th>
-                                                            <th><div class="my-2"><input type="search" name="rank" class="form-control form-control-sm" placeholder="Year"></div></th>
-                                                            <th><div class="my-2"><input type="search" name="email" class="form-control form-control-sm" placeholder="Semester"></div></th>
-                                                            <th><div class="my-2"><input type="search" name="phone" class="form-control form-control-sm" placeholder="FTE"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="faculty_name" class="form-control form-control-sm" placeholder="Faculty"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="year" class="form-control form-control-sm" placeholder="Year Joined"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="semester" class="form-control form-control-sm" placeholder="Semester"></div></th>
+                                                            <th><div class="my-2"><input type="search" name="fte" class="form-control form-control-sm" placeholder="FTE"></div></th>
                                                         </tr>
                                                     </thead>
-                                                    <hr>
+
                                                     <!-- Table Body and Footer remain the same -->
                                                     <tbody>
                                                     {% if faculty %}
@@ -143,7 +100,7 @@
                                                             <td><img class="rounded-circle me-2" width="30" height="30" src="{{ faculty.img_url }}">{{ faculty }}</td>
                                                             <td style="text-align: center;">{{ faculty.year_of_joining }}</td>
                                                             <td style="text-align: center;">Spring</td>
-                                                            <td class="text-truncate" style="text-align: right;">2.14</td>
+                                                            <td class="text-truncate" style="text-align: right;">{{ faculty.fte|floatformat:2 }}</td>
                                                         </tr><!-- End: Faculty Row -->
 
                                                         {% endfor %}
@@ -161,7 +118,7 @@
                                                     <tfoot>
                                                         <tr>
                                                             <td style="min-width: 9em;"><strong>Faculty</strong></td>
-                                                            <td style="text-align: center;"><strong>Year</strong></td>
+                                                            <td style="text-align: center;"><strong>Year Joined</strong></td>
                                                             <td style="text-align: center;"><strong>Semester</strong></td>
                                                             <td style="font-weight: bolder;text-align: right;">FTE</td>
                                                         </tr>
